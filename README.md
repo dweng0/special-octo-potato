@@ -36,4 +36,8 @@ The project uses [Create React App](https://github.com/facebook/create-react-app
 
 ## Candidate notes
 
-> _Please add details of next steps or any notes for the reviewer here._
+# Component Abstraction 
+
+Please take a look at the [Component Abstraction Document](./assets/Component Abstraction Document.pdf)
+
+
