@@ -1,8 +1,11 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { MoviesProps } from '../movies/interface';
 import Movie from '../movie';
 
 const Movies: React.FunctionComponent<MoviesProps> = ({movies}) => { 
+
+    const [filteredMovies, setFilteredMovies] = useState(movies);
+
 
     const showNumberOfMovies = () => {         
         if(movies && movies.length > 0) { 
@@ -13,10 +16,10 @@ const Movies: React.FunctionComponent<MoviesProps> = ({movies}) => {
     }
 
     return (
-        <div>
+        <div className={'movies'}>
             {showNumberOfMovies()}
             <div>
-                {movies.map(Movie)}
+                {filteredMovies.map(Movie)}
             </div>
         </div>
     );

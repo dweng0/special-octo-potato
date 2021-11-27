@@ -22,7 +22,7 @@ The project uses [Create React App](https://github.com/facebook/create-react-app
 
 3. Order the listed movies by popularity (most popular first - `popularity` property).
 
-4. Show the movie poster image (use the `poster_path` property - eg: `https://image.tmdb.org/t/p/w500/8UlWHLMpgZm9bx6QYh0NFoq67TZ.jpg`).
+4. -  Show the movie poster image (use the `poster_path` property - eg: `https://image.tmdb.org/t/p/w500/8UlWHLMpgZm9bx6QYh0NFoq67TZ.jpg`).
 
 5. List out the genres that are present the movie data set.
 
