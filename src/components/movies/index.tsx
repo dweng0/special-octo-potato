@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import { MoviesProps } from '../movies/interface';
 import MovieComponent from '../movie';
+import FilterComponent from '../filter';
 import { Movie, Genre } from '../../interface';
 
 /**
@@ -117,20 +118,7 @@ const Movies: React.FunctionComponent<MoviesProps> = ({movies, genres}) => {
     return (
         <div className={'movies'}>
             {showNumberOfMovies()}
-            <div className={'genres'}>
-                {availableGenres.map(genre => {
-                    return (
-                        <div>
-                            <input type="checkbox" id={`${genre.id}`} name={genre.name} value={`${genre.id}`} onChange={handleChange} checked={isChecked(genre.id)}/>
-                            <label htmlFor={`${genre.id}`}>{genre.name}</label>
-                        </div>
-                    )                    
-                }
-            )}
-            <div className={"reset"} >
-                <a onClick={() => setReset(!reset)} >reset</a>
-            </div>
-            </div>
+            <FilterComponent isChecked={isChecked} availableGenres={availableGenres} handleChange={handleChange} onReset={setReset} />
             <div>
                 {renderMovie()}
             </div>
