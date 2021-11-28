@@ -10,23 +10,34 @@ import { Movie, Genre } from '../../interface';
  */
 const Movies: React.FunctionComponent<MoviesProps> = ({movies, genres}) => { 
 
-    const [filteredMovies, setFilteredMovies] = useState<Array<Movie>>(movies);
+    // handle state
+    const [filteredMovies, setFilteredMovies]   = useState<Array<Movie>>(movies);
     const [availableGenres, setAvailableGenres] = useState<Array<Genre>>([]);
+    const [checkedGenres, setCheckedGenres]     = useState<Array<number>>([]);
+    const [reset, setReset]                     = useState<boolean>(false);
 
+    /**
+     * It: Sorts filtered movies list by popularity
+     * Occurs when: new movies data is provided from parent, or reset is toggled.
+     */
     useEffect(() => {
         const byPopularity = (movieA: Movie, movieB: Movie) => (movieB.popularity - movieA.popularity);
         setFilteredMovies(movies.sort(byPopularity))
-    }, [movies]);
+    }, [movies, reset]);
 
+    /**
+     * It: Builds a list of genres based on the movies provided
+     * Occurs when: new movies or genres are provided from parent
+     */
     useEffect(() => {
 
-        const getAllGenresFromFilteredMovies = (): Array<Genre> => filteredMovies.reduce(reduceAvailableGenres, []);
+        const getAllGenresFromMovies = (): Array<Genre> => movies.reduce(reduceAvailableGenres, []);
         
         // reducer to build a list of all available genres from list of movies.
         const reduceAvailableGenres = (acc: Array<Genre>, currentMovie: Movie, _index:number, _array:Array<Movie>): Array<Genre> => { 
-        const availableGenres: Array<Genre> = [];
-        const newGenres = currentMovie.genre_ids.reduce((results, current, _index, _array) => { return reduceMovieGenres(results, current, acc) }, availableGenres);            
-                return [...acc, ...newGenres];
+            const availableGenres: Array<Genre> = [];
+            const newGenres = currentMovie.genre_ids.reduce((results, current, _index, _array) => reduceMovieGenres(results, current, acc), availableGenres);            
+                    return [...acc, ...newGenres];
         }
 
         // reducer to enrich movie genre_ids into an array of Genres
@@ -41,36 +52,87 @@ const Movies: React.FunctionComponent<MoviesProps> = ({movies, genres}) => {
             return accumulatedResults
         }
        
-       setAvailableGenres(getAllGenresFromFilteredMovies);
-    }, [filteredMovies, genres, setAvailableGenres]);
+       setAvailableGenres(getAllGenresFromMovies);
+    }, [movies, genres, setAvailableGenres]);
 
     /**
-     * Conditional rendering
+     * It: Resets checked genre state
+     * Occurs when: new genres are provided or user clicks reset
      */
+    useEffect(() => { 
+        setCheckedGenres([]);
+    }, [genres, reset]);
 
-    // renders the number of movies currently displayed
+    // It: renders the number of movies currently displayed
     const showNumberOfMovies = () => {         
-        if(filteredMovies && filteredMovies.length > 0) { 
-            const isSingular = (filteredMovies.length === 1)
-            return <div>Showing {filteredMovies.length} {(isSingular) ? "movie" : "movies" }</div>
+        const movies = filteredMovies.filter(filteredCheckedIfAvailable);
+        if(movies && movies.length > 0) { 
+            const isSingular = (movies.length === 1)
+            return <div>Showing {movies.length} {(isSingular) ? "movie" : "movies" }</div>
         }
 
         return <div>No movies to show.</div> ;
     }
 
-    const renderGenre = (genre: Genre) => { 
-        return <div>{genre.name}</div>
+    // It: renders all films if none have been checked, otherwise only show checked
+    const  filteredCheckedIfAvailable = (movie: Movie) => { 
+        if(checkedGenres.length === 0) {
+            return  true
+        }
+        return movie.genre_ids.some(id => checkedGenres.includes(id)) 
     }
 
-    console.log('genres', availableGenres);
+    // It: enriches genre data available for a -specific- movie
+    const renderMovie = () => {                 
+        return filteredMovies.filter(filteredCheckedIfAvailable).map((movie) => {
+            const enrichedGenres: Array<Genre> = [];
+            const availableGenres: Array<Genre> = movie.genre_ids.reduce((acc: Array<Genre>, currentGenreId: number) => {
+                const genre = genres.find(genre => genre.id === currentGenreId);
+                if(genre) {
+                    acc.push(genre);
+                }
+                return acc;
+            }, enrichedGenres);
+            
+            return <MovieComponent key={movie.id} genres={availableGenres} movie={movie}  />
+        } )
+    }
+
+    const isChecked = (genreId: number): boolean => { 
+        return checkedGenres.includes(genreId);
+    };
+
+    const handleChange = (event: any) => { 
+        const { target } = event;
+        const value = parseInt(target.value);
+        if(target.checked) {
+            if(!checkedGenres.includes(value)) {
+                setCheckedGenres([...checkedGenres, ...[value]]);
+            }
+        } else {
+            setCheckedGenres(checkedGenres.filter(id => id !== value));
+        }
+    }
+
     return (
         <div className={'movies'}>
             {showNumberOfMovies()}
             <div className={'genres'}>
-                {availableGenres.map(renderGenre)}
+                {availableGenres.map(genre => {
+                    return (
+                        <div>
+                            <input type="checkbox" id={`${genre.id}`} name={genre.name} value={`${genre.id}`} onChange={handleChange} checked={isChecked(genre.id)}/>
+                            <label htmlFor={`${genre.id}`}>{genre.name}</label>
+                        </div>
+                    )                    
+                }
+            )}
+            <div className={"reset"} >
+                <a onClick={() => setReset(!reset)} >reset</a>
+            </div>
             </div>
             <div>
-                {filteredMovies.map((movie) => <MovieComponent key={movie.id} {...movie} />)}
+                {renderMovie()}
             </div>
         </div>
     );
