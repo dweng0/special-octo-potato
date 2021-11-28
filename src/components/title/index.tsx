@@ -3,7 +3,7 @@ import { TitleProps } from './interface';
 
 /**
  * Renders a title component
- * @param title the text to render
+ * @param text the text to render @see TitleProps
  * @author Jay Martin
  */
 const Title: React.FunctionComponent<TitleProps> = ({ text }) =>  {

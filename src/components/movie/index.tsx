@@ -1,10 +1,17 @@
 import React from 'react';
 import { Movie as MoviesProps } from '../../interface';
 
+/**
+ * Renders a movie item. 
+ * @param props. {@see MoviesProps}
+ * @author Jay Martin
+ */
 const Movie: React.FunctionComponent<MoviesProps> = (props) => { 
 
+    // Spread the props
     const { title, popularity, overview, vote_average, poster_path } = props;
 
+    // return the results
     return (
         <div className={'movie'}>
             <div className={'movie-title'}>

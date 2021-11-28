@@ -1,25 +1,43 @@
 import React, {useState} from 'react';
 import { MoviesProps } from '../movies/interface';
-import Movie from '../movie';
+import MovieComponent from '../movie';
+import { Movie } from '../../interface';
 
+/**
+ * Movies component renders the list of movies, handles filtering
+ * @param MovieProps, an array of Movie {@see Movie} {@see MovieProps}
+ * @Author Jay Martin
+ */
 const Movies: React.FunctionComponent<MoviesProps> = ({movies}) => { 
 
-    const [filteredMovies, setFilteredMovies] = useState(movies);
+    // Array methods
+    const byPopularity = (movieA: Movie, movieB: Movie) => (movieA.popularity - movieB.popularity);
+ 
+    /**
+     * Handling of state
+     */
+    const [filteredMovies, setFilteredMovies] = useState(movies.sort(byPopularity));
+    const [availableGenres, setAvailableGenres] = useState([]);
+    
+    /**
+     * Conditional rendering
+     */
 
-
+    // renders the number of movies currently displayed
     const showNumberOfMovies = () => {         
-        if(movies && movies.length > 0) { 
-            const isSingular = (movies.length === 1)
-            return <div>Showing {movies.length} {(isSingular) ? "movie" : "movies" }</div>
+        if(filteredMovies && filteredMovies.length > 0) { 
+            const isSingular = (filteredMovies.length === 1)
+            return <div>Showing {filteredMovies.length} {(isSingular) ? "movie" : "movies" }</div>
         }
-        return null;
+
+        return <div>No movies to show.</div> ;
     }
 
     return (
         <div className={'movies'}>
             {showNumberOfMovies()}
             <div>
-                {filteredMovies.map(Movie)}
+                {filteredMovies.map(MovieComponent)}
             </div>
         </div>
     );
