@@ -1,5 +1,6 @@
-import { Movie } from "../../interface";
+import { Movie, Genre } from "../../interface";
 
 export interface MoviesProps { 
-    movies: Array<Movie>
+    movies: Array<Movie>,
+    genres: Array<Genre>
 }

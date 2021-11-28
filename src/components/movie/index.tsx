@@ -17,7 +17,7 @@ const Movie: React.FunctionComponent<MoviesProps> = (props) => {
             <div className={'movie-title'}>
                 <h2 >{title}</h2>
             </div>
-            <img className={'movie-image'} src={poster_path} alt={`${title} image`} />                      
+            <img className={'movie-image'} src={`https://image.tmdb.org/t/p/w500/${poster_path}`} alt={`${title} image`} />                      
             <div className={'movie-content'}>
                 <p >
                     {overview}

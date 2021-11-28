@@ -67,6 +67,9 @@ h2 {
   display: grid;
   gap: 1rem;
   grid-template-columns: minmax(3rem, 1fr) 2fr;
+  border-radius: 0.2rem;
+  box-shadow: 0 0.2rem 0.5rem rgba(0, 0, 0, 0.3);
+  padding:12px;
 }
 
 .movie-title {
@@ -76,6 +79,7 @@ h2 {
 .movie-image {
   border-radius: 0.2rem;
   box-shadow: 0 0.2rem 0.5rem rgba(0, 0, 0, 0.3);
+  max-width: 250px;
 }
 
 .movie-content {
@@ -93,4 +97,15 @@ h2 {
   list-style: none;
   padding: 0;
   margin: 1rem 0 0 0;
+}
+
+.genres { 
+    display: flex;
+    flex-wrap: wrap;
+}
+.genres > div { 
+    margin: 8px;
+    padding: 12px;
+    border-radius: 0.2rem;
+    box-shadow: 0 0.2rem 0.5rem rgba(0, 0, 0, 0.3);
 }
