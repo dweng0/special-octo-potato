@@ -14,7 +14,7 @@ const Movie: React.FunctionComponent<MovieProps> = (props) => {
     // return the results
     return (
         <div className={'movie'}>
-             <img className={'movie-image'} src={`https://image.tmdb.org/t/p/w500/${poster_path}`} alt={`${title} image`} />   
+             <img className={'movie-image'} src={`https://image.tmdb.org/t/p/w500/${poster_path}`} alt={`${title}`} />   
              <div className={'movie-contents'}>
                 <div className={'movie-title'}>
                     <h2 >{title}</h2>

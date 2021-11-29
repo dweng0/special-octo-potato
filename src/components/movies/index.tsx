@@ -79,7 +79,7 @@ const Movies: React.FunctionComponent<MoviesProps> = ({movies, genres}) => {
         if(checkedGenres.length === 0) {
             return  true
         }
-        return movie.genre_ids.some(id => checkedGenres.includes(id)) 
+        return movie.genre_ids.some(id => checkedGenres.includes(id)); 
     }
 
     // It: enriches genre data available for a -specific- movie
@@ -128,7 +128,7 @@ const Movies: React.FunctionComponent<MoviesProps> = ({movies, genres}) => {
                 }
             )}
             <div className={"reset"} >
-                <a onClick={() => setReset(!reset)} >reset</a>
+                <span onClick={() => setReset(!reset)} >reset</span>
             </div>
             </div>
             <div>
