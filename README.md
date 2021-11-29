@@ -39,7 +39,7 @@ The project uses [Create React App](https://github.com/facebook/create-react-app
 # Component Abstraction 
 
 - Please take a look at the [Component Abstraction Document](./assets/Component Abstraction Document.pdf)
-- Preview Available [here.](heuristic-carson-38f310.netlify.app)
+- Preview Available [here.](https://heuristic-carson-38f310.netlify.app/)
 - Video discussion annotating code available [here.](https://youtu.be/yYT1uEKiXsU)
 
 
